@@ -1,0 +1,112 @@
+[
+  {
+    "route": "/watch/[videoId]",
+    "firstLoadUncompressedJsBytes": 516387,
+    "firstLoadChunkPaths": [
+      ".next\\static\\chunks\\3cc8977pjd0pq.js",
+      ".next\\static\\chunks\\0fl778318e52v.js",
+      ".next\\static\\chunks\\3go7r2gf3do4y.js",
+      ".next\\static\\chunks\\310vm2bl3xxpt.js",
+      ".next\\static\\chunks\\2mmpezlrfmbu5.js",
+      ".next\\static\\chunks\\3byuobrkyz9bj.js",
+      ".next\\static\\chunks\\2e_lrwr-bf1eq.js",
+      ".next\\static\\chunks\\turbopack-24yfgxwgajau0.js"
+    ]
+  },
+  {
+    "route": "/",
+    "firstLoadUncompressedJsBytes": 515060,
+    "firstLoadChunkPaths": [
+      ".next\\static\\chunks\\3cc8977pjd0pq.js",
+      ".next\\static\\chunks\\4284jvafz3cmw.js",
+      ".next\\static\\chunks\\3go7r2gf3do4y.js",
+      ".next\\static\\chunks\\310vm2bl3xxpt.js",
+      ".next\\static\\chunks\\2mmpezlrfmbu5.js",
+      ".next\\static\\chunks\\3byuobrkyz9bj.js",
+      ".next\\static\\chunks\\2e_lrwr-bf1eq.js",
+      ".next\\static\\chunks\\turbopack-24yfgxwgajau0.js"
+    ]
+  },
+  {
+    "route": "/search",
+    "firstLoadUncompressedJsBytes": 514996,
+    "firstLoadChunkPaths": [
+      ".next\\static\\chunks\\3cc8977pjd0pq.js",
+      ".next\\static\\chunks\\28d7_x9-neakx.js",
+      ".next\\static\\chunks\\3go7r2gf3do4y.js",
+      ".next\\static\\chunks\\310vm2bl3xxpt.js",
+      ".next\\static\\chunks\\2mmpezlrfmbu5.js",
+      ".next\\static\\chunks\\3byuobrkyz9bj.js",
+      ".next\\static\\chunks\\2e_lrwr-bf1eq.js",
+      ".next\\static\\chunks\\turbopack-24yfgxwgajau0.js"
+    ]
+  },
+  {
+    "route": "/register",
+    "firstLoadUncompressedJsBytes": 513633,
+    "firstLoadChunkPaths": [
+      ".next\\static\\chunks\\3cc8977pjd0pq.js",
+      ".next\\static\\chunks\\0a1jozauaennz.js",
+      ".next\\static\\chunks\\3go7r2gf3do4y.js",
+      ".next\\static\\chunks\\310vm2bl3xxpt.js",
+      ".next\\static\\chunks\\2mmpezlrfmbu5.js",
+      ".next\\static\\chunks\\3byuobrkyz9bj.js",
+      ".next\\static\\chunks\\2e_lrwr-bf1eq.js",
+      ".next\\static\\chunks\\turbopack-24yfgxwgajau0.js"
+    ]
+  },
+  {
+    "route": "/history",
+    "firstLoadUncompressedJsBytes": 513585,
+    "firstLoadChunkPaths": [
+      ".next\\static\\chunks\\3cc8977pjd0pq.js",
+      ".next\\static\\chunks\\1zdvurosqunkw.js",
+      ".next\\static\\chunks\\3go7r2gf3do4y.js",
+      ".next\\static\\chunks\\310vm2bl3xxpt.js",
+      ".next\\static\\chunks\\2mmpezlrfmbu5.js",
+      ".next\\static\\chunks\\3byuobrkyz9bj.js",
+      ".next\\static\\chunks\\2e_lrwr-bf1eq.js",
+      ".next\\static\\chunks\\turbopack-24yfgxwgajau0.js"
+    ]
+  },
+  {
+    "route": "/favorites",
+    "firstLoadUncompressedJsBytes": 513583,
+    "firstLoadChunkPaths": [
+      ".next\\static\\chunks\\3cc8977pjd0pq.js",
+      ".next\\static\\chunks\\12-hsyj96_7d7.js",
+      ".next\\static\\chunks\\3go7r2gf3do4y.js",
+      ".next\\static\\chunks\\310vm2bl3xxpt.js",
+      ".next\\static\\chunks\\2mmpezlrfmbu5.js",
+      ".next\\static\\chunks\\3byuobrkyz9bj.js",
+      ".next\\static\\chunks\\2e_lrwr-bf1eq.js",
+      ".next\\static\\chunks\\turbopack-24yfgxwgajau0.js"
+    ]
+  },
+  {
+    "route": "/login",
+    "firstLoadUncompressedJsBytes": 513468,
+    "firstLoadChunkPaths": [
+      ".next\\static\\chunks\\3cc8977pjd0pq.js",
+      ".next\\static\\chunks\\0lvwku2x6amah.js",
+      ".next\\static\\chunks\\3go7r2gf3do4y.js",
+      ".next\\static\\chunks\\310vm2bl3xxpt.js",
+      ".next\\static\\chunks\\2mmpezlrfmbu5.js",
+      ".next\\static\\chunks\\3byuobrkyz9bj.js",
+      ".next\\static\\chunks\\2e_lrwr-bf1eq.js",
+      ".next\\static\\chunks\\turbopack-24yfgxwgajau0.js"
+    ]
+  },
+  {
+    "route": "/_not-found",
+    "firstLoadUncompressedJsBytes": 462642,
+    "firstLoadChunkPaths": [
+      ".next\\static\\chunks\\3cc8977pjd0pq.js",
+      ".next\\static\\chunks\\310vm2bl3xxpt.js",
+      ".next\\static\\chunks\\2mmpezlrfmbu5.js",
+      ".next\\static\\chunks\\3byuobrkyz9bj.js",
+      ".next\\static\\chunks\\2e_lrwr-bf1eq.js",
+      ".next\\static\\chunks\\turbopack-24yfgxwgajau0.js"
+    ]
+  }
+]
