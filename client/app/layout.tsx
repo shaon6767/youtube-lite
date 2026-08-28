@@ -1,28 +1,26 @@
-import { SearchBar } from "@/components/SearchBar";
-import Link from "next/link";
 import "./globals.css";
+import { Geist } from "next/font/google";
+import { ThemeProvider } from "@/components/theme-provider";
+import { AuthProvider } from "@/lib/auth-context";
+import { Header } from "@/components/header";
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
+
+export const metadata = {
+  title: "PlayLite",
+  description: "A small video watching platform",
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen bg-white text-black">
-        <header className="flex items-center gap-6 border-b px-6 py-3">
-          <Link href="/" className="font-bold">
-            YT Lite
-          </Link>
-          <SearchBar />
-          <Link href="/favorites" className="text-sm">
-            Favorites
-          </Link>
-          <Link href="/history" className="text-sm">
-            History
-          </Link>
-        </header>
-        <main className="p-6">{children}</main>
+    <html lang="en" className={geist.variable} suppressHydrationWarning>
+      <body className="min-h-screen bg-background font-sans text-foreground antialiased">
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <AuthProvider>
+            <Header />
+            <main className="p-4 sm:p-6">{children}</main>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

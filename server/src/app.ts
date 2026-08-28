@@ -6,6 +6,7 @@ import { generalLimiter } from "./middleware/rateLimiter.middleware";
 import routes from "./routes";
 
 const app = express();
+app.set("trust proxy", 1); // Render sits behind a proxy — trust exactly one hop
 
 app.use(cors({ origin: env.clientUrl, credentials: true }));
 app.use(express.json());

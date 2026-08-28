@@ -1,5 +1,7 @@
 "use client";
 
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -14,19 +16,14 @@ export function SearchBar() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex w-full max-w-xl">
-      <input
+    <form onSubmit={handleSubmit} className="relative w-full max-w-lg">
+      <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+      <Input
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder="Search videos"
-        className="flex-1 rounded-l-full border px-4 py-2 outline-none"
+        className="pl-9"
       />
-      <button
-        type="submit"
-        className="rounded-r-full border border-l-0 px-4 py-2"
-      >
-        Search
-      </button>
     </form>
   );
 }

@@ -9,8 +9,8 @@ interface Props {
 
 export function VideoCard({ videoId, title, thumbnail, channelTitle }: Props) {
   return (
-    <Link href={`/watch/${videoId}`} className="block group">
-      <div className="aspect-video overflow-hidden rounded-lg bg-gray-100">
+    <Link href={`/watch/${videoId}`} className="group block">
+      <div className="aspect-video overflow-hidden rounded-lg bg-muted">
         <img
           src={thumbnail}
           alt={title}
@@ -19,7 +19,9 @@ export function VideoCard({ videoId, title, thumbnail, channelTitle }: Props) {
         />
       </div>
       <h3 className="mt-2 line-clamp-2 text-sm font-medium">{title}</h3>
-      {channelTitle && <p className="text-xs text-gray-500">{channelTitle}</p>}
+      {channelTitle && (
+        <p className="text-xs text-muted-foreground">{channelTitle}</p>
+      )}
     </Link>
   );
 }
