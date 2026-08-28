@@ -1,6 +1,6 @@
-import { Document, Schema, Types, model } from "mongoose";
+import { Schema, model, Types } from "mongoose";
 
-export interface IWatchHistory extends Document {
+export interface IWatchHistory {
   user: Types.ObjectId;
   videoId: string;
   title: string;
@@ -9,12 +9,7 @@ export interface IWatchHistory extends Document {
 }
 
 const watchHistorySchema = new Schema<IWatchHistory>({
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-    index: true,
-  },
+  user: { type: Schema.Types.ObjectId, ref: "User", required: true, index: true },
   videoId: { type: String, required: true },
   title: { type: String, required: true },
   thumbnail: { type: String, required: true },
@@ -23,7 +18,4 @@ const watchHistorySchema = new Schema<IWatchHistory>({
 
 watchHistorySchema.index({ user: 1, videoId: 1 }, { unique: true });
 
-export const WatchHistory = model<IWatchHistory>(
-  "WatchHistory",
-  watchHistorySchema,
-);
+export const WatchHistory = model<IWatchHistory>("WatchHistory", watchHistorySchema);

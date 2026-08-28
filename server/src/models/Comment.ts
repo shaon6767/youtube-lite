@@ -1,6 +1,6 @@
-import { Document, Schema, Types, model } from "mongoose";
+import { model, Schema, Types } from "mongoose";
 
-export interface IComment extends Document {
+export interface IComment {
   user: Types.ObjectId;
   videoId: string;
   text: string;
