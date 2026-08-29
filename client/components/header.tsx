@@ -23,21 +23,21 @@ export function Header() {
   const { user, loading, logout } = useAuth();
 
   return (
-    <header className="sticky top-0 z-50 flex items-center gap-4 border-b bg-background/95 px-4 py-3 backdrop-blur sm:px-6">
+    <header className="sticky top-0 z-50 flex items-center gap-4 border-b bg-background/95 px-4 py-3 shadow-sm backdrop-blur sm:px-6">
       <Logo />
 
       <div className="flex flex-1 justify-center">
         <SearchBar />
       </div>
 
-      <div className="flex items-center gap-1 sm:gap-2">
+      <div className="flex items-center gap-1 sm:gap-3">
         <Button
           variant="ghost"
           size="icon"
           title="Favorites"
           render={<Link href="/favorites" />}
         >
-          <Heart className="h-5 w-5" />
+          <Heart className="size-5" />
         </Button>
         <Button
           variant="ghost"
@@ -45,13 +45,13 @@ export function Header() {
           title="Watch history"
           render={<Link href="/history" />}
         >
-          <HistoryIcon className="h-5 w-5" />
+          <HistoryIcon className="size-5" />
         </Button>
 
         <ModeToggle />
 
         {loading ? (
-          <Skeleton className="h-8 w-8 rounded-full" />
+          <Skeleton className="size-8 rounded-full" />
         ) : user ? (
           <DropdownMenu>
             <DropdownMenuTrigger
@@ -59,7 +59,7 @@ export function Header() {
                 <Button variant="ghost" size="icon" className="rounded-full" />
               }
             >
-              <Avatar className="h-8 w-8">
+              <Avatar className="size-8">
                 <AvatarFallback className="bg-red-600 text-sm text-white">
                   {user.name.charAt(0).toUpperCase()}
                 </AvatarFallback>
@@ -69,7 +69,7 @@ export function Header() {
               <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => logout()}>
-                <LogOut className="mr-2 h-4 w-4" />
+                <LogOut className="mr-2 size-4" />
                 Log out
               </DropdownMenuItem>
             </DropdownMenuContent>

@@ -22,15 +22,19 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
-  const { refresh } = useAuth();
+  const { login } = useAuth();
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
     setSubmitting(true);
     try {
-      await api.post("/auth/login", { email, password });
-      await refresh();
+      const res = await api.post("/auth/login", { email, password });
+      login(res.data.token, {
+        id: res.data.id,
+        name: res.data.name,
+        email: res.data.email,
+      });
       router.push("/");
     } catch (err: any) {
       setError(err.response?.data?.message || "Login failed");

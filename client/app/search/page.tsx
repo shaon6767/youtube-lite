@@ -1,9 +1,10 @@
 "use client";
-
+import { Input } from "@/components/ui/input";
 import { VideoCard } from "@/components/VideoCard";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { api } from "@/lib/api";
+import { Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useCallback, useEffect, useState } from "react";
 
@@ -64,12 +65,15 @@ function SearchContent() {
 
   return (
     <div>
-      <input
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        className="mb-4 w-full max-w-md rounded border px-3 py-2"
-        placeholder="Search videos"
-      />
+      <div className="relative mb-4 max-w-md">
+        <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+        <Input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Search videos"
+          className="pl-9"
+        />
+      </div>
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
         {videos.map((v) => (
           <VideoCard

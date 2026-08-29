@@ -1,37 +1,27 @@
 "use client";
 
+import { Switch } from "@/components/ui/switch";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { useEffect, useState } from "react";
 
 export function ModeToggle() {
-  const { setTheme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return <div className="h-5 w-9" />;
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger render={<Button variant="ghost" size="icon" />}>
-        <Sun className="h-5 w-5 scale-100 transition-transform dark:scale-0" />
-        <Moon className="absolute h-5 w-5 scale-0 transition-transform dark:scale-100" />
-        <span className="sr-only">Toggle theme</span>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
-          Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
-          System
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div className="flex items-center gap-2 px-1">
+      <Sun className="size-4 text-muted-foreground" />
+      <Switch
+        checked={resolvedTheme === "dark"}
+        onCheckedChange={(checked: boolean) =>
+          setTheme(checked ? "dark" : "light")
+        }
+      />
+      <Moon className="size-4 text-muted-foreground" />
+    </div>
   );
 }

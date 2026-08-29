@@ -10,18 +10,29 @@ interface Props {
 export function VideoCard({ videoId, title, thumbnail, channelTitle }: Props) {
   return (
     <Link href={`/watch/${videoId}`} className="group block">
-      <div className="aspect-video overflow-hidden rounded-lg bg-muted">
+      <div className="aspect-video overflow-hidden rounded-xl bg-muted shadow-sm transition-shadow group-hover:shadow-md">
         <img
           src={thumbnail}
           alt={title}
-          className="h-full w-full object-cover transition group-hover:scale-105"
+          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           loading="lazy"
         />
       </div>
-      <h3 className="mt-2 line-clamp-2 text-sm font-medium">{title}</h3>
-      {channelTitle && (
-        <p className="text-xs text-muted-foreground">{channelTitle}</p>
-      )}
+      <div className="mt-3 flex gap-3">
+        <div className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-full bg-red-600 text-xs font-semibold text-white">
+          {channelTitle ? channelTitle.charAt(0).toUpperCase() : "?"}
+        </div>
+        <div className="min-w-0">
+          <h3 className="line-clamp-2 text-sm leading-snug font-medium">
+            {title}
+          </h3>
+          {channelTitle && (
+            <p className="mt-1 truncate text-xs text-muted-foreground">
+              {channelTitle}
+            </p>
+          )}
+        </div>
+      </div>
     </Link>
   );
 }

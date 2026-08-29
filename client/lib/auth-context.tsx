@@ -18,8 +18,8 @@ interface User {
 interface AuthContextValue {
   user: User | null;
   loading: boolean;
-  refresh: () => Promise<void>;
-  logout: () => Promise<void>;
+  login: (token: string, user: User) => void;
+  logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -29,10 +29,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   const refresh = useCallback(async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setUser(null);
+      setLoading(false);
+      return;
+    }
     try {
       const res = await api.get("/auth/me");
       setUser(res.data);
     } catch {
+      localStorage.removeItem("token");
       setUser(null);
     } finally {
       setLoading(false);
@@ -43,13 +50,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     refresh();
   }, [refresh]);
 
-  async function logout() {
-    await api.post("/auth/logout");
+  function login(token: string, user: User) {
+    localStorage.setItem("token", token);
+    setUser(user);
+  }
+
+  function logout() {
+    localStorage.removeItem("token");
     setUser(null);
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, refresh, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
