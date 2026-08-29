@@ -1,12 +1,8 @@
 "use client";
 
-import {
-  Heart,
-  History as HistoryIcon,
-  LogOut,
-  User as UserIcon,
-} from "lucide-react";
+import { Heart, History as HistoryIcon, LogOut, User as UserIcon } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { Logo } from "@/components/logo";
 import { ModeToggle } from "@/components/mode-toggle";
@@ -26,6 +22,7 @@ import { useAuth } from "@/lib/auth-context";
 
 export function Header() {
   const { user, loading, logout } = useAuth();
+  const router = useRouter();
 
   return (
     <header className="sticky top-0 z-50 flex items-center gap-4 border-b bg-background/95 px-4 py-3 shadow-sm backdrop-blur sm:px-6">
@@ -36,20 +33,10 @@ export function Header() {
       </div>
 
       <div className="flex items-center gap-1 sm:gap-3">
-        <Button
-          variant="ghost"
-          size="icon"
-          title="Favorites"
-          render={<Link href="/favorites" />}
-        >
+        <Button variant="ghost" size="icon" title="Favorites" render={<Link href="/favorites" />}>
           <Heart className="size-5" />
         </Button>
-        <Button
-          variant="ghost"
-          size="icon"
-          title="Watch history"
-          render={<Link href="/history" />}
-        >
+        <Button variant="ghost" size="icon" title="Watch history" render={<Link href="/history" />}>
           <HistoryIcon className="size-5" />
         </Button>
 
@@ -59,11 +46,7 @@ export function Header() {
           <Skeleton className="size-8 rounded-full" />
         ) : user ? (
           <DropdownMenu>
-            <DropdownMenuTrigger
-              render={
-                <Button variant="ghost" size="icon" className="rounded-full" />
-              }
-            >
+            <DropdownMenuTrigger className="flex cursor-pointer items-center justify-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring/50">
               <Avatar className="size-8">
                 <AvatarFallback className="bg-red-600 text-sm text-white">
                   {user.name.charAt(0).toUpperCase()}
@@ -73,10 +56,15 @@ export function Header() {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem render={<Link href="/profile" />}>
+              <DropdownMenuItem onClick={() => router.push("/profile")}>
                 <UserIcon className="mr-2 size-4" />
                 Profile
               </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => router.push("/favorites")}>
+                <Heart className="mr-2 size-4" />
+                Favorites
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => logout()}>
                 <LogOut className="mr-2 size-4" />
                 Log out
@@ -88,11 +76,7 @@ export function Header() {
             <Button variant="ghost" size="sm" render={<Link href="/login" />}>
               Log in
             </Button>
-            <Button
-              size="sm"
-              className="bg-red-600 hover:bg-red-700"
-              render={<Link href="/register" />}
-            >
+            <Button size="sm" className="bg-red-600 hover:bg-red-700" render={<Link href="/register" />}>
               Sign up
             </Button>
           </div>
