@@ -1,6 +1,11 @@
 "use client";
 
-import { Heart, History as HistoryIcon, LogOut } from "lucide-react";
+import {
+  Heart,
+  History as HistoryIcon,
+  LogOut,
+  User as UserIcon,
+} from "lucide-react";
 import Link from "next/link";
 
 import { Logo } from "@/components/logo";
@@ -68,6 +73,10 @@ export function Header() {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
               <DropdownMenuSeparator />
+              <DropdownMenuItem render={<Link href="/profile" />}>
+                <UserIcon className="mr-2 size-4" />
+                Profile
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={() => logout()}>
                 <LogOut className="mr-2 size-4" />
                 Log out

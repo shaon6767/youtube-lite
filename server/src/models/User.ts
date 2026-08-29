@@ -1,10 +1,12 @@
-import { Schema, model, Model } from "mongoose";
 import bcrypt from "bcryptjs";
+import { model, Model, Schema } from "mongoose";
 
 export interface IUser {
   name: string;
   email: string;
   password: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 interface IUserMethods {
@@ -16,10 +18,16 @@ type UserModel = Model<IUser, {}, IUserMethods>;
 const userSchema = new Schema<IUser, UserModel, IUserMethods>(
   {
     name: { type: String, required: true, trim: true },
-    email: { type: String, required: true, unique: true, lowercase: true, trim: true },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
     password: { type: String, required: true, minlength: 6, select: false },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 userSchema.pre("save", async function () {

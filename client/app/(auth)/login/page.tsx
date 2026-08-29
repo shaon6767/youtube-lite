@@ -34,6 +34,7 @@ export default function LoginPage() {
         id: res.data.id,
         name: res.data.name,
         email: res.data.email,
+        createdAt: res.data.createdAt,
       });
       router.push("/");
     } catch (err: any) {

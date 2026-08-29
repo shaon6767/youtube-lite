@@ -70,13 +70,19 @@ export function SearchBar() {
         }}
         className="relative"
       >
-        <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+        <button
+          type="submit"
+          aria-label="Search"
+          className="absolute left-2 top-1/2 flex size-7 -translate-y-1/2 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+        >
+          <Search className="size-4" />
+        </button>
         <Input
           value={value}
           onChange={(e) => setValue(e.target.value)}
           onFocus={() => setOpen(true)}
           placeholder="Search videos"
-          className="pl-9"
+          className="pl-10"
         />
       </form>
 

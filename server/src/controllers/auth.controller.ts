@@ -5,22 +5,33 @@ import { AuthRequest } from "../middleware/auth.middleware";
 import { User } from "../models/User";
 
 function signToken(userId: string) {
-  return jwt.sign({ userId }, env.jwtSecret, { expiresIn: env.jwtExpiresIn as any });
+  return jwt.sign({ userId }, env.jwtSecret, {
+    expiresIn: env.jwtExpiresIn as any,
+  });
 }
 
 export async function register(req: AuthRequest, res: Response) {
   const { name, email, password } = req.body;
   if (!name || !email || !password) {
-    return res.status(400).json({ message: "Name, email and password are required" });
+    return res
+      .status(400)
+      .json({ message: "Name, email and password are required" });
   }
 
   const existing = await User.findOne({ email });
-  if (existing) return res.status(409).json({ message: "Email already in use" });
+  if (existing)
+    return res.status(409).json({ message: "Email already in use" });
 
   const user = await User.create({ name, email, password });
   const token = signToken(user._id.toString());
 
-  res.status(201).json({ token, id: user._id.toString(), name: user.name, email: user.email });
+  res.status(201).json({
+    token,
+    id: user._id.toString(),
+    name: user.name,
+    email: user.email,
+    createdAt: user.createdAt,
+  });
 }
 
 export async function login(req: AuthRequest, res: Response) {
@@ -35,7 +46,13 @@ export async function login(req: AuthRequest, res: Response) {
   }
 
   const token = signToken(user._id.toString());
-  res.json({ token, id: user._id.toString(), name: user.name, email: user.email });
+  res.json({
+    token,
+    id: user._id.toString(),
+    name: user.name,
+    email: user.email,
+    createdAt: user.createdAt,
+  });
 }
 
 export function logout(_req: AuthRequest, res: Response) {
@@ -45,5 +62,10 @@ export function logout(_req: AuthRequest, res: Response) {
 export async function me(req: AuthRequest, res: Response) {
   const user = await User.findById(req.userId);
   if (!user) return res.status(404).json({ message: "User not found" });
-  res.json({ id: user._id.toString(), name: user.name, email: user.email });
+  res.json({
+    id: user._id.toString(),
+    name: user.name,
+    email: user.email,
+    createdAt: user.createdAt,
+  });
 }
