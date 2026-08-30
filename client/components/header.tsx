@@ -1,6 +1,11 @@
 "use client";
 
-import { Heart, History as HistoryIcon, LogOut, User as UserIcon } from "lucide-react";
+import {
+  Heart,
+  History as HistoryIcon,
+  LogOut,
+  User as UserIcon,
+} from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -33,10 +38,20 @@ export function Header() {
       </div>
 
       <div className="flex items-center gap-1 sm:gap-3">
-        <Button variant="ghost" size="icon" title="Favorites" render={<Link href="/favorites" />}>
+        <Button
+          variant="ghost"
+          size="icon"
+          title="Favorites"
+          render={<Link href="/favorites" />}
+        >
           <Heart className="size-5" />
         </Button>
-        <Button variant="ghost" size="icon" title="Watch history" render={<Link href="/history" />}>
+        <Button
+          variant="ghost"
+          size="icon"
+          title="Watch history"
+          render={<Link href="/history" />}
+        >
           <HistoryIcon className="size-5" />
         </Button>
 
@@ -46,7 +61,14 @@ export function Header() {
           <Skeleton className="size-8 rounded-full" />
         ) : user ? (
           <DropdownMenu>
-            <DropdownMenuTrigger className="flex cursor-pointer items-center justify-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring/50">
+            <DropdownMenuTrigger
+              render={
+                <button
+                  type="button"
+                  className="flex cursor-pointer items-center justify-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+                />
+              }
+            >
               <Avatar className="size-8">
                 <AvatarFallback className="bg-red-600 text-sm text-white">
                   {user.name.charAt(0).toUpperCase()}
@@ -76,7 +98,11 @@ export function Header() {
             <Button variant="ghost" size="sm" render={<Link href="/login" />}>
               Log in
             </Button>
-            <Button size="sm" className="bg-red-600 hover:bg-red-700" render={<Link href="/register" />}>
+            <Button
+              size="sm"
+              className="bg-red-600 hover:bg-red-700"
+              render={<Link href="/register" />}
+            >
               Sign up
             </Button>
           </div>

@@ -13,7 +13,7 @@ export async function addToHistory(req: AuthRequest, res: Response) {
   await WatchHistory.findOneAndUpdate(
     { user: req.userId, videoId },
     { title, thumbnail, watchedAt: new Date() },
-    { upsert: true, new: true },
+    { upsert: true, returnDocument: "after" },
   );
 
   res.status(204).send();
