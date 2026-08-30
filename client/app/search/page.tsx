@@ -7,11 +7,20 @@ import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { api } from "@/lib/api";
 import { Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 
 export default function SearchPage() {
+  return (
+    <Suspense fallback={<p>Loading search...</p>}>
+      <SearchContent />
+    </Suspense>
+  );
+}
+
+function SearchContent() {
   const params = useSearchParams();
   const router = useRouter();
+
   const urlQuery = params.get("q") || "";
 
   const [input, setInput] = useState(urlQuery);
@@ -22,36 +31,47 @@ export default function SearchPage() {
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
 
-  // was missing: keep the visible input in sync when the URL changes
-  // from elsewhere (e.g. searching again from the header while already here)
   useEffect(() => {
-    if (urlQuery !== input) setInput(urlQuery);
+    if (urlQuery !== input) {
+      setInput(urlQuery);
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [urlQuery]);
 
-  // push local typing back into the URL, after debounce
   useEffect(() => {
     if (debouncedInput !== urlQuery) {
       router.replace(`/search?q=${encodeURIComponent(debouncedInput)}`, {
         scroll: false,
       });
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedInput]);
 
   const loadResults = useCallback(
     async (reset = false) => {
       if (!debouncedInput.trim() || loading || (done && !reset)) return;
+
       setLoading(true);
-      const res = await api.get("/youtube/search", {
-        params: { q: debouncedInput, pageToken: reset ? undefined : pageToken },
-      });
-      setVideos((prev) =>
-        reset ? res.data.items : [...prev, ...res.data.items],
-      );
-      setPageToken(res.data.nextPageToken);
-      setDone(!res.data.nextPageToken);
-      setLoading(false);
+
+      try {
+        const res = await api.get("/youtube/search", {
+          params: {
+            q: debouncedInput,
+            pageToken: reset ? undefined : pageToken,
+          },
+        });
+
+        setVideos((prev) =>
+          reset ? res.data.items : [...prev, ...res.data.items],
+        );
+
+        setPageToken(res.data.nextPageToken);
+        setDone(!res.data.nextPageToken);
+      } finally {
+        setLoading(false);
+      }
     },
     [debouncedInput, pageToken, loading, done],
   );
@@ -60,7 +80,9 @@ export default function SearchPage() {
     setVideos([]);
     setPageToken(undefined);
     setDone(false);
+
     loadResults(true);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedInput]);
 
@@ -70,6 +92,7 @@ export default function SearchPage() {
     <div>
       <div className="relative mb-4 max-w-md">
         <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+
         <Input
           value={input}
           onChange={(e) => setInput(e.target.value)}
@@ -77,6 +100,7 @@ export default function SearchPage() {
           className="pl-9"
         />
       </div>
+
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
         {videos.map((v) => (
           <VideoCard
@@ -88,12 +112,15 @@ export default function SearchPage() {
           />
         ))}
       </div>
+
       <div ref={sentinelRef} className="h-8" />
+
       {loading && (
         <p className="mt-4 text-center text-sm text-muted-foreground">
           Loading...
         </p>
       )}
+
       {!loading && videos.length === 0 && debouncedInput && (
         <p className="mt-4 text-center text-sm text-muted-foreground">
           No results for "{debouncedInput}"
