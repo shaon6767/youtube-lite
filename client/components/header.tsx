@@ -43,6 +43,7 @@ export function Header() {
           variant="ghost"
           size="icon"
           title="Favorites"
+          nativeButton={false}
           render={<Link href="/favorites" />}
         >
           <Heart className="size-5" />
@@ -51,6 +52,7 @@ export function Header() {
           variant="ghost"
           size="icon"
           title="Watch history"
+          nativeButton={false}
           render={<Link href="/history" />}
         >
           <HistoryIcon className="size-5" />
@@ -98,12 +100,18 @@ export function Header() {
           </DropdownMenu>
         ) : (
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="sm" render={<Link href="/login" />}>
+            <Button
+              variant="ghost"
+              size="sm"
+              nativeButton={false}
+              render={<Link href="/login" />}
+            >
               Log in
             </Button>
             <Button
               size="sm"
               className="bg-red-600 hover:bg-red-700"
+              nativeButton={false}
               render={<Link href="/register" />}
             >
               Sign up
