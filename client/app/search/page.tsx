@@ -1,4 +1,5 @@
 "use client";
+
 import { Input } from "@/components/ui/input";
 import { VideoCard } from "@/components/VideoCard";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -6,39 +7,41 @@ import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { api } from "@/lib/api";
 import { Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export default function SearchPage() {
-  return (
-    <Suspense fallback={<p>Loading search...</p>}>
-      <SearchContent />
-    </Suspense>
-  );
-}
-
-function SearchContent() {
   const params = useSearchParams();
   const router = useRouter();
-  const initialQ = params.get("q") || "";
+  const urlQuery = params.get("q") || "";
 
-  const [input, setInput] = useState(initialQ);
-  const debouncedInput = useDebounce(input, 400);
+  const [input, setInput] = useState(urlQuery);
+  const debouncedInput = useDebounce(input, 500);
 
   const [videos, setVideos] = useState<any[]>([]);
   const [pageToken, setPageToken] = useState<string | undefined>();
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
 
+  // was missing: keep the visible input in sync when the URL changes
+  // from elsewhere (e.g. searching again from the header while already here)
   useEffect(() => {
-    if (debouncedInput && debouncedInput !== params.get("q")) {
-      router.replace(`/search?q=${encodeURIComponent(debouncedInput)}`);
+    if (urlQuery !== input) setInput(urlQuery);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [urlQuery]);
+
+  // push local typing back into the URL, after debounce
+  useEffect(() => {
+    if (debouncedInput !== urlQuery) {
+      router.replace(`/search?q=${encodeURIComponent(debouncedInput)}`, {
+        scroll: false,
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedInput]);
 
   const loadResults = useCallback(
     async (reset = false) => {
-      if (!debouncedInput || loading || (done && !reset)) return;
+      if (!debouncedInput.trim() || loading || (done && !reset)) return;
       setLoading(true);
       const res = await api.get("/youtube/search", {
         params: { q: debouncedInput, pageToken: reset ? undefined : pageToken },
@@ -87,7 +90,14 @@ function SearchContent() {
       </div>
       <div ref={sentinelRef} className="h-8" />
       {loading && (
-        <p className="mt-4 text-center text-sm text-gray-500">Loading...</p>
+        <p className="mt-4 text-center text-sm text-muted-foreground">
+          Loading...
+        </p>
+      )}
+      {!loading && videos.length === 0 && debouncedInput && (
+        <p className="mt-4 text-center text-sm text-muted-foreground">
+          No results for "{debouncedInput}"
+        </p>
       )}
     </div>
   );
