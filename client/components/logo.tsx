@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export function Logo() {
   return (
-    <Link href="/" className="flex shrink-0 items-center gap-2.5">
+    <Link href="/" className="flex shrink-0 items-center gap-2">
       <span className="flex size-8 items-center justify-center rounded-full bg-red-600 text-sm font-bold text-white">
         <SquarePlay />
       </span>

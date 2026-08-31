@@ -87,7 +87,7 @@ export function SearchBar() {
       </form>
 
       {open && suggestions.length > 0 && (
-        <div className="absolute top-full z-50 mt-1 w-full overflow-hidden rounded-lg border bg-popover shadow-lg">
+        <div className="absolute top-full z-50 mt-1.5 w-full overflow-hidden rounded-lg border bg-popover shadow-lg">
           {suggestions.map((s) => (
             <button
               key={s.videoId}
