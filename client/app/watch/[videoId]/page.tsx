@@ -123,6 +123,7 @@ export default function WatchPage() {
             title={v.snippet.title}
             thumbnail={v.snippet.thumbnails.medium.url}
             channelTitle={v.snippet.channelTitle}
+            durationText={v.durationText}
           />
         ))}
       </div>

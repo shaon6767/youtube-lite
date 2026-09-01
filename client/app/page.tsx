@@ -15,16 +15,14 @@ export default function HomePage() {
   const [done, setDone] = useState(false);
 
   useEffect(() => {
-    api
-      .get("/youtube/categories")
-      .then((res) =>
-        setCategories(
-          res.data.items.map((c: any) => ({
-            id: c.id,
-            title: c.snippet.title,
-          })),
-        ),
-      );
+    api.get("/youtube/categories").then((res) =>
+      setCategories(
+        res.data.items.map((c: any) => ({
+          id: c.id,
+          title: c.snippet.title,
+        })),
+      ),
+    );
   }, []);
 
   const loadVideos = useCallback(
@@ -68,6 +66,7 @@ export default function HomePage() {
             title={v.snippet.title}
             thumbnail={v.snippet.thumbnails.medium.url}
             channelTitle={v.snippet.channelTitle}
+            durationText={v.durationText}
           />
         ))}
       </div>

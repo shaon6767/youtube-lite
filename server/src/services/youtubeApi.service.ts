@@ -8,6 +8,38 @@ const yt = axios.create({
   params: { key: env.youtubeApiKey },
 });
 
+function formatDuration(iso: string): string {
+  const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+  const hours = parseInt(match?.[1] || "0", 10);
+  const minutes = parseInt(match?.[2] || "0", 10);
+  const seconds = parseInt(match?.[3] || "0", 10);
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return hours > 0
+    ? `${hours}:${pad(minutes)}:${pad(seconds)}`
+    : `${minutes}:${pad(seconds)}`;
+}
+
+async function getVideoDurations(
+  videoIds: string[],
+): Promise<Record<string, string>> {
+  if (videoIds.length === 0) return {};
+  const { data } = await yt.get("/videos", {
+    params: { part: "contentDetails", id: videoIds.join(",") },
+  });
+  const map: Record<string, string> = {};
+  for (const item of data.items) map[item.id] = item.contentDetails.duration;
+  return map;
+}
+
+async function attachDurations(items: any[], getId: (item: any) => string) {
+  const ids = items.map(getId).filter(Boolean);
+  const durations = await getVideoDurations(ids);
+  return items.map((item: any) => ({
+    ...item,
+    durationText: formatDuration(durations[getId(item)] || "PT0S"),
+  }));
+}
+
 export async function searchVideos(query: string, pageToken?: string) {
   const { data } = await yt.get("/search", {
     params: {
@@ -18,6 +50,10 @@ export async function searchVideos(query: string, pageToken?: string) {
       pageToken,
     },
   });
+  data.items = await attachDurations(
+    data.items,
+    (item: any) => item.id.videoId,
+  );
   return data;
 }
 
@@ -27,7 +63,7 @@ export async function getPopularVideos(
 ) {
   const { data } = await yt.get("/videos", {
     params: {
-      part: "snippet,statistics",
+      part: "snippet,statistics,contentDetails",
       chart: "mostPopular",
       regionCode: "US",
       maxResults: 12,
@@ -35,6 +71,10 @@ export async function getPopularVideos(
       pageToken,
     },
   });
+  data.items = data.items.map((item: any) => ({
+    ...item,
+    durationText: formatDuration(item.contentDetails?.duration || "PT0S"),
+  }));
   return data;
 }
 
@@ -52,8 +92,6 @@ export async function getCategories(regionCode = "US") {
   return data;
 }
 
-// YouTube removed the relatedToVideoId search param in Aug 2023.
-// Workaround: pull the video's category, then search that category.
 export async function getRelatedVideos(videoId: string) {
   const video = await getVideoById(videoId);
   if (!video) return { items: [] };
@@ -69,5 +107,9 @@ export async function getRelatedVideos(videoId: string) {
   });
 
   data.items = data.items.filter((item: any) => item.id.videoId !== videoId);
+  data.items = await attachDurations(
+    data.items,
+    (item: any) => item.id.videoId,
+  );
   return data;
 }
